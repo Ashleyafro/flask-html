@@ -1,118 +1,160 @@
-<div style="
-    max-width: 780px;
-    margin: 40px auto;
-    padding: 35px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #f2f6fa, #ffffff);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
-    font-family: 'Georgia', serif;
-    color: #1b405e;
-">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Predicción Titanic</title>
 
-    <!-- ENCABEZADO -->
-    <h1 style="
+<style>
+    body {
+        background: linear-gradient(to bottom, #0e2433, #174562, #1b5c87);
+        font-family: "Georgia", serif;
+        margin: 0;
+        padding: 0;
+        color: #e7eef3;
+    }
+
+    .container {
+        max-width: 850px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        backdrop-filter: blur(4px);
+    }
+
+    h1 {
         text-align: center;
-        font-size: 36px;
-        margin-bottom: 5px;
+        font-size: 38px;
+        color: #f5f9fc;
+        margin-bottom: 10px;
         letter-spacing: 1px;
-        color: #12324a;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-    ">
-        🚢 Titanic – Panel de Análisis de Pasajeros
-    </h1>
+    }
 
-    <p style="
+    h3 {
+        color: #dbe7f0;
+    }
+
+    p {
+        color: #d0dce5;
+        line-height: 1.5;
+        font-size: 17px;
+    }
+
+    .section {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(255,255,255,0.08);
+        border-left: 5px solid #d6e4ef;
+        border-radius: 12px;
+    }
+
+    .image-box {
         text-align: center;
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(255,255,255,0.07);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .image-box img {
+        max-width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .result-box {
+        background: rgba(255,255,255,0.1);
+        padding: 18px;
+        border-radius: 12px;
+        font-size: 20px;
+        text-align: center;
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        color: #ffffff;
+        border-left: 6px solid #84b6d8;
+    }
+
+    .home-btn {
+        margin-top: 35px;
+        text-align: center;
+    }
+
+    .home-btn button {
+        padding: 14px 30px;
+        background: #dbe7f0;
+        border: none;
+        color: #0e2433;
+        border-radius: 10px;
         font-size: 18px;
-        color: #49687d;
-        margin-bottom: 25px;
-    ">
-        Exploración visual y predicción de la supervivencia basada en datos reales del RMS Titanic.
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+        font-family: "Georgia", serif;
+    }
+
+    .home-btn button:hover {
+        background: #ffffff;
+        transform: scale(1.05);
+    }
+
+    hr {
+        border: 0;
+        margin: 35px 0;
+        border-top: 1px solid rgba(255,255,255,0.25);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚢 Análisis del Pasajero – Titanic</h1>
+    <p style="text-align:center; max-width: 700px; margin: 0 auto;">
+        Resultado generado mediante análisis visual y un modelo predictivo entrenado con datos reales del RMS Titanic.
     </p>
 
-    <hr style="margin: 25px 0; border: 0; border-top: 1px solid #c3d3df;">
+    <hr>
 
+    <!-- Imagen -->
+    <div class="section">
+        <h3>🖼 Imagen analizada</h3>
+        <p>Esta es la fotografía proporcionada. La IA ha estimado edad, sexo y clase social a partir de la imagen.</p>
 
-    <!-- SECCIÓN IMAGEN -->
-    <h2 style="font-size: 26px; margin-bottom: 10px; color: #12324a;">
-        🖼 Imagen del Pasajero
-    </h2>
-
-    <p style="font-size: 15px; color: #4a6c84;">
-        Aquí puedes visualizar la fotografía proporcionada para relacionarla con el análisis del modelo.
-        El Titanic transportaba más de 2200 pasajeros: cada rostro cuenta una historia.
-    </p>
-
-    {% if img_url %}
-        <div style="
-            padding: 18px;
-            border-radius: 12px;
-            background: #f7fbff;
-            border: 1px solid #d1e1ec;
-            margin-top: 15px;
-            text-align: center;
-        ">
-            <img src="{{ img_url }}" alt="Imagen del pasajero"
-                style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+        <div class="image-box">
+            {% if img_url %}
+                <img src="{{ img_url }}" alt="Imagen del pasajero">
+            {% else %}
+                <p>No se proporcionó ninguna imagen.</p>
+            {% endif %}
         </div>
-    {% else %}
-        <p style="color: #4a6a84; font-style: italic; margin-top: 10px;">
-            No se ha proporcionado ninguna imagen.
+    </div>
+
+    <hr>
+
+    <!-- Predicción -->
+    <div class="section">
+        <h3>📊 Predicción de supervivencia</h3>
+        <p>
+            Basado en los parámetros estimados automáticamente (edad, sexo y clase del pasajero),
+            el modelo predice si la persona habría sobrevivido o no al hundimiento del Titanic.
         </p>
-    {% endif %}
 
-
-    <hr style="margin: 35px 0; border: 0; border-top: 1px solid #c3d3df;">
-
-
-    <!-- SECCIÓN ESTIMACIÓN -->
-    <h2 style="font-size: 26px; margin-bottom: 10px; color: #12324a;">
-        📊 Estimación de Supervivencia
-    </h2>
-
-    <p style="font-size: 15px; color: #4a6c84;">
-        El siguiente análisis utiliza un modelo predictivo que evalúa factores como la clase del pasajero,
-        edad, sexo y otros atributos clave que influyeron en la tragedia.
-    </p>
-
-    {% if respuesta2 %}
-        <div style="
-            padding: 18px;
-            background: #eef6ff;
-            border-left: 6px solid #12324a;
-            border-radius: 12px;
-            margin-top: 15px;
-            color: #2a4d66;
-            font-size: 16px;
-        ">
-            {{ respuesta2 | safe }}
+        <div class="result-box">
+            {{ respuesta2 }}
         </div>
-    {% else %}
-        <p style="color: #4a6a84; font-style: italic; margin-top: 10px;">
-            Aún no se ha generado ninguna predicción.
-        </p>
-    {% endif %}
+    </div>
 
-
-    <!-- BOTÓN VOLVER -->
-    <div style="text-align: center; margin-top: 40px;">
+    <!-- Botón volver -->
+    <div class="home-btn">
         <form action="{{ url_for('home') }}" method="get">
-            <button type="submit" style="
-                padding: 14px 28px;
-                font-size: 18px;
-                background: #12324a;
-                color: white;
-                border: none;
-                border-radius: 10px;
-                cursor: pointer;
-                transition: 0.3s;
-                font-family: 'Georgia', serif;
-            "
-            onmouseover="this.style.background='#1d4d6e'"
-            onmouseout="this.style.background='#12324a'">
-                ⬅ Volver a la Home Page
-            </button>
+            <button type="submit">⬅ Volver al inicio</button>
         </form>
     </div>
 
 </div>
+
+</body>
+</html>
